@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Log in</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="login-container">
+      <% if (typeof(e) !== 'undefined') { %>
+        <div id='error'> <%= e %> </div>
+      <% } %>
+      <h2> Log in </h2> 
+      <p> Don't have an account? <a href='/users/register'>Register</a> <p>
+      <form method="post" action="/users/login">
+        <div class="form-group">
+          <label for="kerberos">Kerberos:</label>
+          <input type="text" class="form-control" name="kerberos" placeholder="Enter kerberos">
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control" name="password" placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn btn-default">Log in</button>
+        <input type="hidden" name="_csrf" value=<%= csrf %>></input>
+      </form>
+    </div>
+  </body>
+</html>

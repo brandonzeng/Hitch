@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<!-- This should have the past + current rides for a user -->
+
+<html>
+  <head>
+    <title>User page</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  </head>
+  <body>
+    <header>
+      <% include header %>
+    </header>
+
+    <% if (typeof(e) !== 'undefined') { %>
+      <div id='error'> <%= e %> </div>
+    <% } %>
+
+    <div class="container">
+      <% if (user.kerberos === reviewee.kerberos) { %>
+        <h1>Reviews</h1>
+      <% } else { %>
+        <h1>Reviews for <%= reviewee.kerberos %></h1>
+      <% } %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Rating</th>
+            <th>Reviewer</th>
+            <th>Comment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0; i < reviews.length; ++i) { %>
+            <tr>
+              <td><%= reviews[i].rating %></td>
+              <td><%= reviews[i].kerberos %></td>
+              <td><%= reviews[i].comment %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

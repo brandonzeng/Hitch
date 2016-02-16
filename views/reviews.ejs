@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Reviews</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <% include header %>
+    </header>
+
+    <div class="container">
+      <h4><b>Riders Who Rode With You</b></h4>
+        <ul>
+          <% for (var i = 0; i < other_riders.length; ++i) { %>
+            <li>
+              <form action="/reviews/<%= ride_id %>" method="post">
+                <h5><b><%= other_riders[i].kerberos %></b></h5>
+                <p>Rating:</p>
+                <span class="rating">
+                  <% for (var j = 5; j > 0; j--) { %>
+                    <% if (other_riders_reviews[i] && other_riders_reviews[i].rating == j) { %>
+                      <input type="radio" class="rating-input" id=<%= "rating-input-1-".concat(j).concat("-").concat(other_riders[i].kerberos) %> name="rating" value=<%= j %> checked="checked" 
+                      disabled required/>
+                    <% } else if (other_riders_reviews[i]) { %>
+                      <input type="radio" class="rating-input" id=<%= "rating-input-1-".concat(j).concat("-").concat(other_riders[i].kerberos) %> name="rating" value=<%= j %> disabled required/>
+                    <% } else { %>
+                      <input type="radio" class="rating-input" id=<%= "rating-input-1-".concat(j).concat("-").concat(other_riders[i].kerberos) %> name="rating" value=<%= j %> required/>
+                    <% } %>
+                      <label for=<%= "rating-input-1-".concat(j).concat("-").concat(other_riders[i].kerberos) %> class="rating-star"></label>
+                  <% } %> 
+                </span>
+                <p>Comment:</p>
+                <% if (other_riders_reviews[i]) { %>
+                  <p><%= other_riders_reviews[i].comment%></p>
+                <% } else { %>
+                 <p><textarea name="comment" cols="50" rows="4"> </textarea></p>
+                 <p><input id = "submit" type="submit" name="Submit" value="Submit"></p>
+                <% } %>
+                
+                <input type="hidden" name="_csrf" value=<%= csrf %>></input>
+                <input type="hidden" name="ride_id" value=<%= ride_id %>></input>
+                <input type="hidden" name="reviewer_id" value=<%= user._id %>></input>
+                <input type="hidden" name="reviewee_id" value=<%= other_riders[i]._id %>></input>           
+                
+              </form>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+  </body>
+</html>
+

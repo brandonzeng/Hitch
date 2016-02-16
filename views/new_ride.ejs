@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hitch</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.9.0/validator.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefWb-vXOlxrWNEm_M20_eT4BTNYxNfYc&signed_in=true&libraries=places&callback=initAutocomplete" async defer></script>
+    <script src="/javascripts/new_ride.js"></script>
+
+  </head>
+  <body>
+    <header>
+      <% include header %>
+    </header>
+
+    <div class="container">
+      <% if (typeof(e) !== 'undefined') { %>
+        <div id='error'> <%= e %> </div>
+      <% } %>
+      <h1>Create a new ride</h1>
+      <form data-toggle="validator" role="form" method="post" action="/rides/" name="form">
+        <div class="form-group">
+          <label for="date">Departure Date:</label>
+          <input type="date" class="form-control" name="date" id="date" required>
+        </div>
+        <div class="form-group">
+          <label for="time">Departure Time:</label>
+          <input type="time" class="form-control" name="time" id="time" required>
+        </div>
+        <div class="form-group">
+          <label for="origin">Start Location:</label>
+          <input id="autocomplete_orig" class="form-control" name="origin" placeholder="Enter address" onFocus="geolocate()" type="text"></input>
+        </div>
+        <div class="form-group">
+          <label for="destination">Destination:</label>
+          <input id="autocomplete_dest" class="form-control" name="destination" placeholder="Enter address" onFocus="geolocate()" type="text"></input>
+        </div>
+        <div class="form-group">
+          <label for="capacity">Capacity:</label>
+          <input type="number" class="form-control" min="2" max="6" name="capacity" placeholder="Enter capacity" required>
+        </div>
+        <div class="form-group">
+          <select class="form-control" name="transport" id="transport" required>
+            <option value="Taxi">Taxi</option>
+            <option value="Uber">Uber</option>
+            <option value="Lyft">Lyft</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+        <input type="hidden" name="_csrf" value=<%= csrf %>></input>
+      </form>
+    </div>
+
+  </body>
+</html>

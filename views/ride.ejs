@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hitch</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="/javascripts/ride.js"></script>
+    <script>
+      window.onload = function() {
+        initMap({ lat : <%= coordA.lat %>, lng: <%= coordA.lng %> },
+                { lat : <%= coordB.lat %>, lng: <%= coordB.lng %> });
+      };
+    </script>
+  </head>
+  <body>
+    <header>
+      <% include header %>
+    </header>
+
+    <% if (typeof(e) !== 'undefined') { %>
+      <div id='error'> <%= e %> </div>
+    <% } %>
+    <div class="container">
+      <h1>
+        Ride
+        <%if (ride.departure_time > currentTime){%>
+          <form method="post" action="/rides/participate" style="display:inline;">
+            <input type="hidden" name="_csrf" value=<%= csrf %>></input>
+            <input type="hidden" name = "ride_id" value=<%= ride._id %>></input>
+            <% if (ride.riders.indexOf(user._id) < 0) {%>
+              <button type="submit" class="btn btn-default">Join ride</button>
+            <%} else { %>
+              <button type="submit" class="btn btn-default">Leave ride</button>
+            <% } %>
+          </form>
+        <% } %>
+      </h1>
+      <b>Origin:</b> <%= ride.origin %> <br>
+      <b>Destination: </b><%= ride.destination %> <br>
+      <b>Departure time:</b> <%= ride.departure_time.toLocaleString() %> <br>
+      <% if (map) { %>
+        <b>Distance:</b> <%= distance %> <br>
+        <b>Expected Duration:</b> <%= duration %> <br>
+        <div id="map-canvas" style="width:100%;height:300px;margin-left:auto;margin-right:auto" class="container">
+      </div>
+      <% } %>
+      <h3>Ride Participants</h3>
+      <table class="table" id = "my_rides">
+        <thead>
+          <tr>
+            <th>Rider</th>
+            <th>Rating</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0; i < riders.length; ++i) { %>
+            <tr>
+              <td><a href='/users/user/<%= riders[i]._id %>'><b><%= riders[i].kerberos %></b></a></td>
+              <td><%= riders[i].rating %> stars</td>
+              <%if (ride.departure_time > currentTime){%>
+                  <% if (String(user._id) !== String(riders[i]._id) && String(user._id) === String(ride.creator)) { %>
+                    <form method="post" action="/rides/remove">
+                      <input type="hidden" name="_csrf" value=<%= csrf %>></input>
+                      <input type="hidden" name="ride_id" value=<%= ride._id %>></input>
+                      <input type="hidden" name="user_id" value=<%= riders[i]._id %>></input>
+                      <td><button type="submit" class="btn btn-danger">Remove</button></td>
+                    </form>
+                  <% } %>
+              <% }%>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+        <% if (ride.departure_time <= currentTime) {%>
+          <form method="get" class="inlineForm" action="/reviews/<%= ride._id %>">
+            <td><button type="submit" class="btn btn-default">Review</button></td>
+          </form>
+        <% } %>
+      <br>
+    </div>
+  </body>
+</html>

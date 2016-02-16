@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hitch</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+    <!-- javascripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="/javascripts/index.js"></script>
+
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.css">
+  </head>
+
+  <body class="index"> 
+  	<% if (typeof(e) !== 'undefined') { %>
+      <div id='error'> <%= e %> </div>
+    <% } else if (loggedIn === false) { %>
+      <div class="jumbotron">
+        <div class="jumbo-container">
+          <h1>Hitch</h1>
+          <p>Welcome to the world's best way to hitch a ride! Let us do the work for you ^-^</p>
+          <p><a class="btn btn-primary btn-lg" href="/users/login" role="button">Log in</a> <a class="btn btn-primary btn-lg" href="/users/register" role="button">Register</a></p>
+        </div>
+      </div>
+    <% } else { %> 
+      
+      <header>
+        <% include header %>
+      </header>
+
+      <div class="container">
+        <h1>Open rides</h1>
+        <table class="table" id = "open_rides">
+          <thead>
+            <tr>
+              <th>Departure Time</th>
+              <th>Start Location</th>
+              <th>Destination</th>
+              <th>Seats Taken</th>
+              <th>Seats Open</th>
+              <th>Transport</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (var i = 0; i < rides.length; i ++) {%>
+              <tr class="clickable-row" data-href="/rides/<%= rides[i]._id %>" style="cursor: pointer;">
+                <td><%= rides[i].departure_time.toLocaleString() %></td>
+                <td><%= rides[i].origin %></td>
+                <td><%= rides[i].destination %></td>
+                <td><%= rides[i].total_capacity - rides[i].remaining_capacity %></td>
+                <td><%= rides[i].remaining_capacity %></td>
+                <td><%= rides[i].transport %></td>
+                <form method="post" action="/rides/participate">
+                  <input type="hidden" name="_csrf" value=<%= csrf %>></input>
+                  <input type="hidden" name = "ride_id" value=<%= rides[i]._id %>></input>
+                  <% if (rides[i].riders.indexOf(user._id) < 0) {%>
+                    <td> <button type="submit" class="btn btn-default">Join ride</button> </td>
+                  <%} else { %>
+                    <td> <button type="submit" class="btn btn-default">Leave ride</button> </td>
+                  <% } %>
+                </form>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+  </body>
+</html>

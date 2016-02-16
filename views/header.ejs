@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+      </button>
+      <a class="navbar-brand" href="/">Hitch <small><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></small></a>
+    </div> 
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href='/'>Rides</a></li>
+		    <li><a href='/users/my_rides'>My Rides</a></li>
+		    <li><a href='/rides/new_ride'>New Ride</a></li>	     
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href='/users/user/<%= user._id %>'> <%= user.kerberos %> </a></li>
+  		<li><a href='/users/logout'>Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

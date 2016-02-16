@@ -1,0 +1,84 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url("https://static.pexels.com/photos/4097/city-cars-traffic-lights.jpeg");
+  background-size: 100%;
+  background-repeat: repeat-y;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.container {
+    background-color:white;
+    opacity: .95;
+    padding-left: 10px;
+    padding-right:10px;
+    padding-top: 1px;
+    padding-bottom: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+#error {
+    padding-top: 20px;
+    color: red;
+}
+
+.login-container {
+    background-color:white;
+    opacity: .95;
+    width:400px;
+    padding-left: 20px;
+    padding-right:20px;
+    padding-top: 1px;
+    padding-bottom: 25px;
+    margin:auto;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.jumbotron{
+    border-radius:25px;
+    opacity: .95;
+}
+
+.jumbo-container {
+    padding-left: 10%;
+}
+
+.map-container {
+    background-color:#04242f;
+}
+
+.rating {
+    overflow: hidden;
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+}
+.rating-input {
+    float: right;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
+}
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
+}
+
+.dataTables_filter, .dataTables_info { display: none; }
