@@ -1,4 +1,5 @@
 # Hitch #
+6.170 Group Project with Eric Chen, Selina Leung, and Teresa Tai
 Deployed at https://hitch-6170.herokuapp.com/  
 
 ## Overview ##
